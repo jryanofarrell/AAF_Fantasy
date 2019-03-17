@@ -36,7 +36,7 @@ def get_player_stats(game_id, stats, verbose=False):
     {{
       node(id: "{}") {{
         ... on Game {{
-          playersConnection(first: 100) {{
+          playersConnection(first: 1000) {{
             edges {{
               node {{
                 jerseyNumber
@@ -61,14 +61,16 @@ def get_player_stats(game_id, stats, verbose=False):
         print(query_string)
     players_stats = post_req(query_string, verbose=verbose)
     players_stats = players_stats['data']['node']['playersConnection']['edges']
-    player_list = list()
+    player_list = set()
     for player_dict in players_stats:
         name_dict = player_dict['node']['legalName']
-        player_name = "{} {}".format(name_dict['givenName'], name_dict['familyName'])
         player_team = player_dict['team']['abbreviation']
-        player_obj = Player(player_name, player_team)
+        player_obj = Player(name_dict['givenName'], name_dict['familyName'], player_team)
         player_obj.update_player_stats(player_dict['stats'])
-        player_list.append(player_obj)
+        player_list.add(player_obj)
+
+    if verbose:
+        print("player set is length {}".format(len(player_list)))
     return player_list
 
 

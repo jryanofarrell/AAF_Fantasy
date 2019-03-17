@@ -1,13 +1,18 @@
 import static
 
+
 class Player(object):
     stats = dict()
-    player_name = ""
-    player_team = ""
+    first_name = ""
+    last_name = ""
+    team = ""
 
-    def __init__(self, player_name, player_team,):
+    def __init__(self, first_name, last_name, team):
         for stat in static.stat_list:
             self.stats[stat] = 0
+        self.first_name = first_name
+        self.last_name = last_name
+        self.team = team
 
     def calc_points(self):
         total_score=0.0
@@ -32,6 +37,13 @@ class Player(object):
 
     def update_player_stats(self, new_stats):
         self.stats = new_stats
+
+    def __hash__(self):
+        return hash((self.first_name, self.last_name, self.team))
+
+    def __eq__(self, other):
+        if not isinstance(other, type(self)): return NotImplemented
+        return self.first_name == other.first_name and self.last_name == other.last_name and self.team == other.team
 
 
 
