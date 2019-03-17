@@ -2,6 +2,7 @@ import requests
 import pprint
 import utils
 from player import Player
+import static
 pp = pprint.PrettyPrinter(indent=4)
 
 
@@ -72,8 +73,7 @@ def get_player_stats(game_id, stats, verbose=False):
 
 
 def post_req(query_string, verbose=False):
-    AAF_api = "http://api.platform.aaf.com/v1/graphql"
-    req = requests.post("http://api.platform.aaf.com/v1/graphql", json={'query': query_string})
+    req = requests.post(static.aaf_api_url, json={'query': query_string})
     try:
         req.raise_for_status()
     except requests.HTTPError as error:
