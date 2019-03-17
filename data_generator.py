@@ -7,7 +7,7 @@ pp = pprint.PrettyPrinter(indent=4)
 
 
 def get_game_ids(date="TODAY", verbose=False):
-    date_string_list = utils.get_date_string_list(date)
+    date_string_list = utils.get_date_string_list(date, verbose=verbose)
     if verbose:
         pp.pprint(date_string_list)
     query_string = '''

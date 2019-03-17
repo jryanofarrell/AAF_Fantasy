@@ -1,3 +1,5 @@
+from datetime import datetime
+
 stat_list = ["passingYards", "passingTouchdowns", "passesIntercepted", "receptions",
              "receivingYards", "receivingTouchdowns", "rushingYards", "rushingTouchdowns",
              "opponentFumblesRecovered", "twoPointConversionPassesGood", "twoPointConversionRushesGood",
@@ -16,3 +18,5 @@ three_stats = ["fieldGoalsMade"]
 aaf_api_url = "http://api.platform.aaf.com/v1/graphql"
 player_teams_file = "/data/player_teams.csv"
 schedule_file = "/data/schedule.csv"
+start_date = datetime(2019, 2, 11)
+verbose = True
