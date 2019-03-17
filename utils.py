@@ -1,7 +1,7 @@
 
 
 from datetime import datetime, timedelta
-
+import static
 
 def conv_date_to_str(date):
     return "{0:04}-{1:02}-{2:02}T00:00:00Z".format(date.year, date.month, date.day)
@@ -31,7 +31,9 @@ def get_date_string_list(date, verbose=False):
     date_str_list.append(conv_date_to_str(end_date))
     return date_str_list
 
-
+def get_week(week_num):
+    start = static.start_date
+    return start + timedelta(days = (week_num-1)*7)
 
 
 #   0,   1,   2,     3,   4,   5,   6,

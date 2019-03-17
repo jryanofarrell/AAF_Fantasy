@@ -1,8 +1,9 @@
 import data_generator
 import static
+import utils
 
 def main():
-    date = static.start_date
+    date = utils.get_week(5)
     game_ids = data_generator.get_game_ids(verbose=static.verbose, date=date)
     player_set = set()
     for cnt, game_id in enumerate(game_ids):
