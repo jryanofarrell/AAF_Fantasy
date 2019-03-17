@@ -36,7 +36,7 @@ def get_player_stats(game_id, stats, verbose=False):
     {{
       node(id: "{}") {{
         ... on Game {{
-          playersConnection(first: 1000) {{
+          playersConnection(first: 200) {{
             edges {{
               node {{
                 jerseyNumber
