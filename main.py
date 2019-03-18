@@ -10,6 +10,7 @@ def main():
         player_set = player_set.union(data_generator.get_player_stats(game_id["id"], static.stat_list, verbose=static.verbose))
         if static.verbose:
             print("set len after game {} is {}".format(cnt+1, len(player_set)))
+        data_generator.get_dst_stats(game_id['id'], static.dst_stat_list)
 
 
 
