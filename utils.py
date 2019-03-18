@@ -31,6 +31,7 @@ def get_date_string_list(date, verbose=False):
     date_str_list.append(conv_date_to_str(end_date))
     return date_str_list
 
+
 def get_week(week_num):
     start = static.start_date
     return start + timedelta(days = (week_num-1)*7)

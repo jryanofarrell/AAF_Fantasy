@@ -7,12 +7,13 @@ class Player(object):
     last_name = ""
     team = ""
 
-    def __init__(self, first_name, last_name, team):
+    def __init__(self, first_name, last_name, team, pos="NA"):
         for stat in static.stat_list:
             self.stats[stat] = 0
         self.first_name = first_name
         self.last_name = last_name
         self.team = team
+        self.pos = pos
 
     def calc_points(self):
         total_score=0.0
@@ -38,6 +39,9 @@ class Player(object):
     def update_player_stats(self, new_stats):
         self.stats = new_stats
 
+    def get_pos(self):
+        return self.pos
+
     def __hash__(self):
         return hash((self.first_name, self.last_name, self.team))
 
@@ -45,5 +49,10 @@ class Player(object):
         if not isinstance(other, type(self)): return NotImplemented
         return self.first_name == other.first_name and self.last_name == other.last_name and self.team == other.team
 
+    def __str__(self):
+        if not self.last_name or not self.team:
+            return self.first_name
+        else:
+            return "{} {} - {}".format(self.first_name, self.last_name, self.team)
 
 
