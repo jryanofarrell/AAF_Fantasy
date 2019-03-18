@@ -2,6 +2,7 @@ import requests
 import pprint
 import utils
 from player import Player
+from dst import dst
 import static
 pp = pprint.PrettyPrinter(indent=4)
 
@@ -75,6 +76,43 @@ def get_player_stats(game_id, stats, verbose=False):
         print("player set is length {}".format(len(full_player_dict)))
         print(full_player_dict)
     return full_player_dict
+
+
+def get_dst_stats(gameid, stats):
+    p_query_string='''
+    {{
+      node(id: "{}") {{
+        ... on Game {{
+          homeTeamEdge {{
+            node{{abbreviation}}
+            ...teamEdge
+          }}
+          awayTeamEdge {{
+            node{{abbreviation}}
+            ...teamEdge
+          }}
+        }}
+      }}
+    }}
+    
+    fragment teamEdge on GameTeamEdge {{
+      stats {{
+      {}
+      }}
+    }}
+    '''.format(gameid,"\n".join(stats))
+
+    gamedata= post_req(p_query_string)
+    gamedata= gamedata['data']['node']
+    from_opponent_list=['points','turnovers','timesSacked']
+    pp.pprint(gamedata)
+    awayteam= dst(gamedata['awayTeamEdge']['node']['abbreviation'])
+    hometeam= dst(gamedata['homeTeamEdge']['node']['abbreviation'])
+    for stat in from_opponent_list:
+        awayteam.update_stats(stat, gamedata['homeTeamEdge']['stats'][stat])
+        hometeam.update_stats(stat, gamedata['homeTeamEdge']['stats'][stat])
+
+
 
 
 def post_req(query_string, verbose=False):
