@@ -1,5 +1,6 @@
 import static
-
+import pprint
+pp = pprint.PrettyPrinter(indent=4)
 
 class Player(object):
     stats = dict()
@@ -7,16 +8,20 @@ class Player(object):
     last_name = ""
     team = ""
 
-    def __init__(self, first_name, last_name, team, pos="NA"):
+    def __init__(self, first_name, last_name, team, pos="NA", verbose=False):
         for stat in static.stat_list:
             self.stats[stat] = 0
         self.first_name = first_name
         self.last_name = last_name
         self.team = team
         self.pos = pos
+        self.verbose=verbose
 
     def calc_points(self):
         total_score=0.0
+        if self.verbose:
+            print ("Calculating points for player {} - {}".format(self, self.pos))
+            pp.pprint(self.stats)
         for stat in static.twenty_fifth_stats:
             total_score = total_score + self.stats[stat]*0.04
         for stat in static.tenth_stats:

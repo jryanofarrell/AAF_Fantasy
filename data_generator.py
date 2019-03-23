@@ -68,7 +68,7 @@ def get_player_stats(game_id, stats, verbose=False):
         name_dict = player_dict['node']['legalName']
         player_team = player_dict['team']['abbreviation']
         player_pos = player_dict['node']['position']
-        player_obj = Player(name_dict['givenName'], name_dict['familyName'], player_team, player_pos)
+        player_obj = Player(name_dict['givenName'], name_dict['familyName'], player_team, player_pos, verbose=static.verbose)
         player_obj.update_player_stats(player_dict['stats'])
         full_player_dict[str(player_obj)] = player_obj
 
@@ -105,7 +105,7 @@ def get_dst_stats(gameid, stats):
     gamedata= post_req(p_query_string)
     gamedata= gamedata['data']['node']
     from_opponent_list=['points','turnovers','timesSacked']
-    pp.pprint(gamedata)
+    #pp.pprint(gamedata)
     awayteam= dst(gamedata['awayTeamEdge']['node']['abbreviation'])
     hometeam= dst(gamedata['homeTeamEdge']['node']['abbreviation'])
     for stat in from_opponent_list:

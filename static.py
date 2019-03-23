@@ -3,17 +3,16 @@ import os
 stat_list = ["passingYards", "passingTouchdowns", "passesIntercepted", "receptions",
              "receivingYards", "receivingTouchdowns", "rushingYards", "rushingTouchdowns",
              "opponentFumblesRecovered", "twoPointConversionPassesGood", "twoPointConversionRushesGood",
-             "twoPointConversionsCompleted", "twoPointConversionPassReceptionsGood",
+             "twoPointConversionPassReceptionsGood", "fumbles", "fumblesRecovered",
              "fieldGoalsMade", "fieldGoalsAttempted"]
 
 twenty_fifth_stats = ["passingYards"]
 tenth_stats = ["rushingYards", "receivingYards"]
-neg_two_stats = ["passesIntercepted", "opponentFumblesRecovered"]
+neg_two_stats = ["passesIntercepted", "fumbles"]
 four_stats = ["passingTouchdowns"]
 six_stats = ["receivingTouchdowns", "rushingTouchdowns"]
 half_stats = ["receptions"]
-two_stats = ["twoPointConversionPassesGood", "twoPointConversionRushesGood",
-             "twoPointConversionsCompleted", "twoPointConversionPassReceptionsGood"]
+two_stats = ["twoPointConversionPassesGood", "twoPointConversionRushesGood", "twoPointConversionPassReceptionsGood"]
 three_stats = ["fieldGoalsMade"]
 
 
