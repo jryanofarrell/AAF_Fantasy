@@ -1,16 +1,15 @@
 import requests
-import pprint
 import utils
 from player import Player
 from dst import dst
 import static
-pp = pprint.PrettyPrinter(indent=4)
+
 
 
 def get_game_ids(date="TODAY", verbose=False):
     date_string_list = utils.get_date_string_list(date, verbose=verbose)
     if verbose:
-        pp.pprint(date_string_list)
+        static.pp.pprint(date_string_list)
     query_string = '''
     {{
       gamesConnection(atOrAfterTime:"{}", beforeTime:"{}"){{
@@ -27,7 +26,7 @@ def get_game_ids(date="TODAY", verbose=False):
     }}
     '''.format(date_string_list[0], date_string_list[1])
     if verbose:
-        pp.pprint(query_string)
+        static.pp.pprint(query_string)
     game_data = post_req(query_string, verbose=verbose)
     return game_data['data']['gamesConnection']['nodes']
 
@@ -68,7 +67,7 @@ def get_player_stats(game_id, stats, verbose=False):
         name_dict = player_dict['node']['legalName']
         player_team = player_dict['team']['abbreviation']
         player_pos = player_dict['node']['position']
-        player_obj = Player(name_dict['givenName'], name_dict['familyName'], player_team, player_pos, verbose=static.verbose)
+        player_obj = Player(name_dict['givenName'], name_dict['familyName'], player_team, player_pos, verbose=verbose)
         player_obj.update_player_stats(player_dict['stats'])
         full_player_dict[str(player_obj)] = player_obj
 
@@ -78,7 +77,7 @@ def get_player_stats(game_id, stats, verbose=False):
     return full_player_dict
 
 
-def get_dst_stats(gameid, stats):
+def get_dst_stats(gameid, stats, verbose=False):
     p_query_string='''
     {{
       node(id: "{}") {{
@@ -105,12 +104,22 @@ def get_dst_stats(gameid, stats):
     gamedata= post_req(p_query_string)
     gamedata= gamedata['data']['node']
     from_opponent_list=['points','turnovers','timesSacked']
-    #pp.pprint(gamedata)
-    awayteam= dst(gamedata['awayTeamEdge']['node']['abbreviation'])
-    hometeam= dst(gamedata['homeTeamEdge']['node']['abbreviation'])
+    from_self_list=['touchdowns', 'fieldGoalsBlocked']
+    if verbose:
+        static.pp.pprint(gamedata)
+    awayteam= dst(gamedata['awayTeamEdge']['node']['abbreviation'], verbose=verbose)
+    hometeam= dst(gamedata['homeTeamEdge']['node']['abbreviation'], verbose=verbose)
     for stat in from_opponent_list:
         awayteam.update_stats(stat, gamedata['homeTeamEdge']['stats'][stat])
+        hometeam.update_stats(stat, gamedata['awayTeamEdge']['stats'][stat])
+    for stat in from_self_list:
+        awayteam.update_stats(stat, gamedata['awayTeamEdge']['stats'][stat])
         hometeam.update_stats(stat, gamedata['homeTeamEdge']['stats'][stat])
+
+    dst_dict = {}
+    dst_dict[awayteam.get_name()] = awayteam
+    dst_dict[hometeam.get_name()] = hometeam
+    return dst_dict
 
 
 
@@ -125,5 +134,5 @@ def post_req(query_string, verbose=False):
         return {}
     result = req.json()
     if verbose:
-        pp.pprint(result)
+        static.pp.pprint(result)
     return result

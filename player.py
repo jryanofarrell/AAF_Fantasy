@@ -1,6 +1,5 @@
 import static
-import pprint
-pp = pprint.PrettyPrinter(indent=4)
+
 
 class Player(object):
     stats = dict()
@@ -21,7 +20,7 @@ class Player(object):
         total_score=0.0
         if self.verbose:
             print ("Calculating points for player {} - {}".format(self, self.pos))
-            pp.pprint(self.stats)
+            static.pp.pprint(self.stats)
         for stat in static.twenty_fifth_stats:
             total_score = total_score + self.stats[stat]*0.04
         for stat in static.tenth_stats:
@@ -46,6 +45,21 @@ class Player(object):
 
     def get_pos(self):
         return self.pos
+
+    def get_team(self):
+        return self.team
+
+    def get_touchdowns(self):
+        if self.verbose:
+            print("Getting player touchdowns for {}".format(self))
+            static.pp.pprint(self.stats)
+        touchdown_stats = ["receivingTouchdowns", "rushingTouchdowns"]
+        num_tds = 0
+        for td in touchdown_stats:
+            num_tds += self.stats[td]
+        if self.verbose:
+            print("total player touchdowns is {}".format(num_tds))
+        return num_tds
 
     def __hash__(self):
         return hash((self.first_name, self.last_name, self.team))

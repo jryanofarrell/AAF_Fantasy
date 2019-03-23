@@ -180,7 +180,8 @@ class Team(object):
     def calc_points(self):
         total_score = 0.0
         for pos, player_obj in self.team_dict.items():
-            total_score = total_score + player_obj.calc_points()
+            if "BENCH" not in pos:
+                total_score = total_score + player_obj.calc_points()
         return total_score
 
     def __str__(self):

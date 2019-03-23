@@ -17,13 +17,14 @@ three_stats = ["fieldGoalsMade"]
 
 
 
-dst_stat_list= ['turnovers','timesSacked','points','fieldGoalsBlocked','safeties','fieldGoalsMade','touchdowns']
+dst_stat_list= ['turnovers','timesSacked','points','fieldGoalsBlocked','safeties','fieldGoalsMade','touchdowns', 'passingYardsNet', 'rushingYardsNet']
 dst_two_stats=["turnovers",'safeties','fieldGoalsBlocked']
-dst_score=["points"]
+
 dst_one=["timesSacked"]
 
 
-
+import pprint
+pp = pprint.PrettyPrinter(indent=4)
 
 
 aaf_api_url = "http://api.platform.aaf.com/v1/graphql"
